@@ -29,6 +29,7 @@ async fn main() {
     let app_state = Arc::new(AppState { link_service });
 
     let api = Router::new()
+        .route("/health", get(handlers::health_check))
         .route("/links/create", post(handlers::create_link))
         .route("/links/{code}", get(handlers::get_link));
 

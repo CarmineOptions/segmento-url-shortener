@@ -17,6 +17,10 @@ pub struct CreateLinkRequest {
     target_url: String,
 }
 
+pub async fn health_check() -> Response {
+    (StatusCode::OK, "API is healthy").into_response()
+}
+
 pub async fn create_link(
     State(state): State<std::sync::Arc<AppState>>,
     Json(payload): Json<CreateLinkRequest>,
