@@ -80,7 +80,7 @@ pub async fn code_redirect(
             }
         },
         Err(e) => {
-            tracing::warn!("failed getting code: {:?}", e);
+            tracing::error!("failed getting code: {:?}", e);
             return (StatusCode::INTERNAL_SERVER_ERROR, "failed getting code").into_response();
         }
     };
