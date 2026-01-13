@@ -22,7 +22,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-RUN useradd --create-home --home-dir /app --shell /usr/sbin/nologin appuser
+RUN useradd --uid 10001 --create-home --home-dir /app --shell /usr/sbin/nologin appuser
 COPY --from=builder /app/target/release/api /app/api
 RUN chown appuser:appuser /app/api
 
