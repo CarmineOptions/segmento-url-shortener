@@ -6,6 +6,7 @@ use axum::{
 };
 use database::{create_pool, link_repo::LinkRepo};
 use services::link_service::LinkService;
+use tower_http::cors::{Any, CorsLayer};
 
 mod handlers;
 
@@ -33,9 +34,15 @@ async fn main() {
         .route("/links/create", post(handlers::create_link))
         .route("/links/{code}", get(handlers::get_link));
 
+    let cors = CorsLayer::new()
+        .allow_origin(Any)
+        .allow_methods(Any)
+        .allow_headers(Any);
+
     let app = Router::new()
         .nest("/manager-api", api)
         .route("/{code}", get(handlers::code_redirect))
+        .layer(cors)
         .with_state(app_state);
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
